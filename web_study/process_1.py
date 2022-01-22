@@ -32,13 +32,13 @@
 
 
 # 守护进程
-import multiprocessing
-import time
-
-def func():
-    for i in range(5):
-        time.sleep(0.2)
-        print('子进程')
+# import multiprocessing
+# import time
+#
+# def func():
+#     for i in range(5):
+#         time.sleep(0.2)
+#         print('子进程')
 
 # if __name__ == '__main__':
 #     # 程序一旦运行 就会默认创建主进程
@@ -65,14 +65,14 @@ def func():
 # 1、可以把子进程设置为守护进程 守护进程会随着主进程的结束一起结束
 # 2、在主进程结束时手动销毁子进程
 
-if __name__ == '__main__':
-    my_func = multiprocessing.Process(target=func)
-    # 方法一：设置守护进程
-    my_func.daemon = True
-    my_func.start()
-    for i in range(3):
-        time.sleep(0.2)
-        print('主进程')
-    # 方法二：手动结束子进程
-    # my_func.terminate()
-    print('主进程 : over')
+# if __name__ == '__main__':
+#     # 方法一：设置守护进程
+#     my_func = multiprocessing.Process(target=func, daemon=True) # 一、可以在创建进程时就设置 daemon 为 True
+#     # my_func.daemon = True # 二、也可以在创建之后，再设置 daemon 为 True
+#     my_func.start()
+#     for i in range(3):
+#         time.sleep(0.2)
+#         print('主进程')
+#     # 方法二：手动结束子进程
+#     # my_func.terminate()
+#     print('主进程 : over')
