@@ -33,8 +33,8 @@ def sing(count):
 # 需要 10 秒钟完成
 # 最少有一个进程 这个进程中最少有一个线程
 # if __name__ == '__main__':
-#     test.dance(5)
-#     test.sing(5)
+#     dance(5)
+#     sing(5)
 
 
 # 多进程
@@ -49,9 +49,9 @@ if __name__ == '__main__':
     # name : 给子进程设置名字
     # args : 用元组的格式传入任务（函数）的参数（注意：单个元素的元组要加上','）
     # kwargs : 用字典的格式传入任务（函数）的参数（注意：key 应为参数名，对应的 value 应为参数的值）
-    my_dance = multiprocessing.Process(target=test.dance, name='dance', args=(5,))
+    my_dance = multiprocessing.Process(target=dance, name='dance', args=(5,))
     # my_sing = multiprocessing.Process(target=test.sing, name='sing', args=(5,))
-    my_sing = multiprocessing.Process(target=test.sing, name='sing', kwargs={'count': 5})
+    my_sing = multiprocessing.Process(target=sing, name='sing', kwargs={'count': 5})
     # 开启子进程
     my_dance.start()
     my_sing.start()
