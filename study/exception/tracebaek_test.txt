@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "/home/loau/python/project/study/exception/exception.py", line 78, in <module>
+    print(3 / 0)
+ZeroDivisionError: division by zero
