@@ -38,10 +38,10 @@
 # fw.close()
 
 # f = open('file/IO/test.py', 'wb')
-# str = "print('这是一个二进制文件\\n')\n".encode('utf-8') # encode() 编码：把 Unicode（统一码） 编码为字符串的字节类型
+# str = "print('这是一个二进制文件\\n')\n".encode('utf-8') # encode() 编码：把字符串转化为二进制进制格式
 # f.write(str)
 # f.close()
-# print(str.decode('utf-8')) # decode() 解码：把字符串的字节类型解码为 Unicode（统一码）
+# print(str.decode('utf-8')) # decode() 解码：把二进制格式转化为字符串
 
 # 序列化与反序列化
 # import pickle
