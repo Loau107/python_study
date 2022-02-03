@@ -30,14 +30,14 @@ class WebServer:
             client_socket.close()
             return
 
-        print('客户端请求 :', recv_data.split('\r\n')[0])
-
         # 读取路径信息
         path = recv_data.split(' ')[1]
 
         # 设置主页
         if path == '/':
             path = '/index.html'
+
+        print('客户端请求 :', path[1 : len(path)])
 
         # 读取文件资源
         try:

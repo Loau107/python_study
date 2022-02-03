@@ -34,3 +34,297 @@ varchar(5) # 表示有 5 个字符，如果写入字符个数小于 5 ， 不会
 3、唯一 unique：此字段的值不允许重复
 4、默认 default：当不填写字段时，会使用默认值
 5、外键 foreign key：对关系字段进行约束（当为关系字段填写值时，会到关联的青中查询此值是否存在，如果存在则填写成功，如果不存在则填写失败并抛出异常）
+
+
+SQL 语句：
+
+    ---------数据库操作---------
+
+    --登录数据库
+    mysql -uroot -p
+
+    --退出数据库
+    quit / exit
+
+    --查询操作
+    --查询数据库版本
+    select version();
+
+    --查询时间
+    select now();
+
+    --查询当前数据库
+    select database();
+
+    --查看所有数据库
+    show databases;
+
+    --创始数据库
+    create database database_name charset=utf8;
+
+    --使用数据库
+    use database_name;
+
+    --删除数据库
+    drop database database_name;
+
+    ----------数据表操作----------
+
+    --查看所有数据表
+    show tables;
+
+    --创建数据表
+    --字段后面必须定义数据类型，约束可有可无
+    create table table_name(
+    id int unsigned primary key not null auto_increment, -- 主键 非空 自动增长
+    name varchar(30) not null -- 非空
+    );
+
+    --查看表结构
+    desc table_name;
+
+    --查看表的创建语句
+    show create table table_name;
+
+    ----------修改表-----------
+
+    --添加字段
+    alter table table_name add field_name field_type;
+
+    --修改字段（不重命名版）
+    alter table table_name modify field_name new_field_type;
+
+    --修改字段（重命名版）
+    alter table table_name change field_name new_field_name new_field_type;
+
+    --删除字段
+    alter table table_name drop field_name;
+
+    ----------记录的增删改查（curd）----------
+
+    --插入/增加记录
+    insert into table_name values(...);
+    --例：对于
+    +--------+-----------------------+
+    | Field  | Type                  |
+    +--------+-----------------------+
+    | id     | int unsigned          |
+    | name   | varchar(30)           |
+    | hight  | decimal(5,2)          |
+    | age    | int unsigned          |
+    | gender | enum('男','女','未知')|
+    | cls_id | int                   |
+    +--------+-----------------------+
+    insert into table_name values(0 / null / default, "au", 188.88, 18, '男', 01);
+
+    --部分插入（只插入部分字段的值）
+    insert into table_name(fields...) values(...);
+
+    --多行插入
+    insert into table_name valuse(...), (...), ..., (...);
+
+    --修改记录
+    update table_name set field1 = value1, field2 = value2, ..., fieldn = valuen;
+
+    --按条件修改记录
+    update table_name set field1 = value1, field2 = value2, ..., fieldn = valuen where _condition; --_condition：条件   例：id = 3、name = 'au' ...
+
+    --查询记录
+    select * from table_name;
+
+    --按条件查询记录
+    select * from table_name where _condition;
+
+    --查询指定字段（显示的顺序与命令上的字段顺序一致）
+    select field1, field2, ..., fieldn from table_name;
+
+    --设置显示的别名（只改变其次显示的名字，不会改变字段的名字）
+    select field1 as new_name1, field2 as new_name2, ..., fieldn as new_namen from table_name; # as 也可以省略 直接用空格隔开
+
+    --删除记录
+    delete from table_name where _condition;
+
+    --逻辑删除记录
+    alter table table_name add is_delete bit default 0; # 添加一个 is_delete 字段用于记录数据是否被删除  默认为 0（未删除）
+    update table_name set is_delete = 1 where _condition; # 逻辑删除时将 is_delete 字段改为 1 （已删除）
+
+    --条件查询
+    select * from table_name where _condition;
+    --_condition 与 Python 中的条件表达式一致   除了 '==' -> '='
+    --查询 id 在区间 (3, 8) 上的记录
+    select * from table_name where id > 3 and id < 8;
+    --空判断与非空判断
+    select * from table_name where field_name is null;
+    select * from table_name where field_name is not null;
+
+    --模糊查询
+    --关键字 like
+    -- % 替换任意个字符
+    -- _ 替换一个字符
+    --查询 name 以 a 开头的记录
+    select * from table_name where name like 'a%';
+    --查询 name 含有 a 的记录
+    select * from table_name where name like '%a%';
+    --查询 name 长度为 2 的记录
+    select * from table_name where name like '__';
+    --查询 name 长度至少为 3 的记录
+    select * from table_name where name like '___%';
+
+    --范围查询
+    --非连续范围查询（多个特定值）
+    --查询 id 为 3, 5, 8 的记录
+    select * from table_name where id in (3, 5, 8);
+    --连续范围查询
+    --查询 id 在区间 [3, 8] 内的记录
+    select * from table_name where id between 3 and 8;
+
+    --排序查询
+    --order by field_name ...
+    --asc 升序
+    --desc 降序
+    --查询年龄在 [18, 25] 的女性 按年龄升序排序
+    select * from table_name where (age between 18 and 25) and gender = 2 order by age asc; --asc 可以不写 默认为 asc
+    --查询年龄在 [18, 25] 的女性 按年龄升序排序 相同时按身高降序排序
+    select * from table_name where (age between 18 and 25) and gender = 2 order by age asc, height desc; --asc 可以不写 默认为 asc
+
+    --聚合函数
+    --count() 总数   max() 最大值   min() 最小值   sum() 总和   avg() 平均值
+    --查询男性人数
+    select count(*) from table_name where gender = 1;
+    --查询身高最大值
+    select max(height) from table_name;
+    --查询年龄最小值
+    select min(age) from table_name;
+    --计算年龄总和
+    select sum(age) from table_name;
+    --计算年龄大于 18 岁的人数
+    select sum(age > 18) from table_name;
+    --计算身高平均值
+    select avg(height) from table_name;
+    select sum(age) / count(*) from table_name; --使用函数返回值进行运算
+    --四舍五入
+    --round(num, n) 对 num 四舍五入 保留 n 位小数
+    --计算所有人的平均身高 保留 1 位小数
+    select round(avg(height), 1) from table_name;
+
+    --分页查询
+    --limit start count;
+    --查询：每页 5 个记录，查询第 3 页
+    select * from table_name limit 10, 5;
+    -- " select * from table_name limit (3 - 1) * 5, 5; " 错误，limit 参数不能为表达式
+    --查询：按年龄升序排序，每页 3 个记录，查询第 5 页
+    select * from table_name order by age asc limit 12, 3; --先排序后翻页
+    -- " select * from table_name limit 12, 3 order by age asc; " 错误，limit 必须放最后
+
+    --分组查询
+    --group by field_name
+    --按 gender 分组
+    select gender from table_name group by gender;
+    --查询各个组别中的其它字段记录
+    --group_concat(field_names...)
+    --按 gender 分组 查询各个组中的 name 与 height
+    select gender, group_concat(name, height) from table_name group by gender;
+    select gender, group_concat(name), group_concat(height) from table_name group by gender;
+    --按 gender 分组 查询各个组中的平均身高
+    select gender, avg(height) from table_name group by gender;
+    --查询平均年龄超过 20 岁的性别的记录
+    --having 与 where 相似   where 是对全部记录筛选   having 是对各个分组筛选
+    select gender, group_concat(name) from table_name group by gender having avg(age) > 20;
+
+    --子查询
+    --查询身高大于平均身高的记录
+    select * from table_name where height > (select avg(height) from table_name);
+    --查询班级号存在的学生信息
+    select * from students where cls_id in (select id from classes);
+
+    --内连接
+    --内连接：根据条件取出两个表的 “交集”
+    select * from inner join table_1 inner join table_2 on table_1.field_1 = table_2.field_2;
+
+
+数据库设计之三范式：
+
+第一范式（1NF）：强调的是列的原子性，即列不能再细分
+错误示例：
+    +-----------------+
+    |     contact     |
+    +-----------------+
+    | 张三、10086、山东 |
+    +-----------------+
+正确示例：
+    +--------+-------+------+
+    |  name  |  tel  | addr |
+    +--------+-------+------+
+    |   张三  | 10086 |  山东 |
+    +--------+-------+------+
+
+第二范式（2NF）：满足 1NF 另外包含两部分内容： 1、表必须有一个主键 2、非主要字段必须完全依赖于主键，而不能只是部分字段依赖于主键
+错误示例：
+    订单表：
+    +-------+---------+-------+------+-----+-------+
+    | 订单ID |  商品ID |  单价  | 折扣  | 数量 | 商品名 |
+    +-------+---------+-------+------+-----+-------+
+    |  1001 |  7654   |  18.6 |  8.5 |  4  | 洗发水 |
+    +-------+---------+-------+------+-----+-------+
+正确示例：
+    订单表：
+    +-------+---------+------+-----+
+    | 订单ID |  商品ID | 折扣  | 数量 |
+    +-------+---------+------+-----+
+    |  1001 |  7654   |  8.5 |  4  |
+    +-------+---------+------+-----+
+    商品表：
+    +---------+-------+-------+
+    |  商品ID |  单价  | 商品名 |
+    +---------+-------+-------+
+    |  7654   |  18.6 | 洗发水 |
+    +---------+-------+-------+
+
+第三范式（3NF）：满足 2NF 另外非主键列必须直接依赖于主键，不能存在传递依赖 即不能存在：非主键 A 依赖于非主键 B 依赖于主键的情况
+错误示例：
+    订单表：
+    +---------+------------+----------+--------+-------------+---------+
+    |  订单ID  |  订单时间   |  用户ID   | 用户名  |   用户地址   | 用户省份  |
+    +---------+------------+----------+--------+-------------+---------+
+    |  1001   | 2019-01-01 |  12352   |  老王   |  深圳市南山区 |  广东省  |
+    +---------+------------+----------+--------+-------------+---------+
+正确示例：
+    订单表：
+    +---------+------------+----------+
+    |  订单ID  |  订单时间   |  用户ID   |
+    +---------+------------+----------+
+    |  1001   | 2019-01-01 |  12352   |
+    +---------+------------+----------+
+    用户表：
+    +----------+--------+-------------+---------+
+    |  用户ID   | 用户名  |   用户地址   | 用户省份  |
+    +----------+--------+-------------+---------+
+    |  12352   |  老王   |  深圳市南山区 |  广东省  |
+    +----------+--------+-------------+---------+
+
+
+分表操作：
+1、创建品牌类型表 goods_brands
+create table goods_brands(
+    id int unsigned primary key auto_increment,
+    name varchar(40) not null
+);
+
+2、将商品表 goods 中的品牌类型信息更新到品牌类型表 goods_brands 中
+insert into goods_brands(name) (select brand_name from goods group by brand_name);
+
+3、将 goods 表中的品牌类型名 brand_name 更新为 goods_brands 表中的品牌 id
+update (goods inner join goods_brands on goods.brand_name = goods_brands.name) set goods.brand_name = goods_brands.id;
+
+4、将 goods 表中的字段 brand_name 重构
+alter table goods change brand_name brand_id int unsigned;
+
+
+外键：
+外键可以联系主表与分表中的相关字段 避免两表信息不匹配的问题
+
+添加外键使 goods.brand_id 与 goods_brands.id 相关联
+alter table goods add foreign key (brand_id) references goods_brands(id);
+
+删除外键
+alter table goods drop foreign key goods_ibfk_1;
