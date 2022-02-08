@@ -328,3 +328,19 @@ alter table goods add foreign key (brand_id) references goods_brands(id);
 
 删除外键
 alter table goods drop foreign key goods_ibfk_1;
+
+
+事务：
+开启事务
+begin; / start transaction;
+
+提交事务
+commit;
+
+回滚事务
+rollback;
+
+
+索引：
+索引的创建：
+alter table table_name add index index_name(可不填写) (fields_names...);

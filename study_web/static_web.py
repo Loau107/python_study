@@ -18,7 +18,7 @@ class WebServer:
             client_socket, client_addr = self.tcp_server_socket.accept()
             sub_handler_client = threading.Thread(target=self.handler_client, args=((client_socket,)), daemon=True)
             sub_handler_client.start()
-            # self.handler_client(client_socket)
+            # self.handler_clzient(client_socket)
 
 
     @staticmethod
@@ -41,6 +41,7 @@ class WebServer:
 
         # 读取文件资源
         try:
+            print('path =', path)
             f = open('file' + path, 'rb')
             file_data = f.read()
             f.close()

@@ -89,8 +89,8 @@
 #         return f'年龄: {self.errorInfo} 错误，应该在 1 - 150 之间！'
 # ##### 测试代码 #####
 # if __name__ == '__main__': # 如果程序为直接调用，则内置变量__name__的值为__main__，否则为调用脚本本身的名字
-#     age = int(input('请输入您的年龄：'))
-#     if age < 1 or age > 150:
-#         raise AgeError(age) # 抛出异常
+#     new_age = int(input('请输入您的年龄：'))
+#     if new_age < 1 or new_age > 150:
+#         raise AgeError(new_age) # 抛出异常
 #     else:
-#         print(f'您的年龄为{age}')
+#         print(f'您的年龄为{new_age}')

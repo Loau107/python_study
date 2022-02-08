@@ -21,9 +21,9 @@
 
 # 类
 # class Student:
-#     def __init__(self, name, age, score): # 构造函数，默认格式
+#     def __init__(self, name, new_age, score): # 构造函数，默认格式
 #         self.name = name
-#         self.age = age
+#         self.new_age = new_age
 #         self.score = score
 #     def get_score(self): # self 表示调用的对象本身
 #         print(self.name + "同学，您的期末总分数为：" + str(self.score))
@@ -84,7 +84,7 @@
 # 字典可以理解为双列的列表，是一种键值对的形式
 # dict = { # 全称 dictionary
 #     'name' : "au", # 左边是键，右边是值，键只能用字符串类型，值可以为任意类型
-#     'age' : 18,
+#     'new_age' : 18,
 #     'score' : 100
 # }
 # print(dict['name']) # 通过键查找值
